@@ -1,27 +1,3 @@
-.pageContainer{
-    border: solid orange;
-}
-.pageTitle{
-    border: solid orange;
-}
-.userFormContainer{
-    border: solid orange;
-}
-.userFormTitle{
-    border: solid orange;
-}
-.userFormExplanation{
-    border: solid orange;
-}
-.formItself{
-    border: solid orange;
-}
-.labelNumberUser{
-    border: solid orange;
-}
-.inputNumberUser{
-    border: solid orange;
-}
-.outputContainer{
-    border: solid orange;
+*{
+    border: solid red;
 }
