@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Fibonacci Sequence</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="pageContainer">
+            <h1 class="pageTitle">Choose where the Fibonacci Sequence should start</h1>
+            <!-- Container for the form that will capture user input -->
+            <div class="userFormContainer">
+                <h2 class="userFormTitle">Please enter a number below</h2>
+                <h3 class="userFormExplanation">As long as the number is in the Fibonacci sequence, then it along with the next eleven numbers will print on this page.  Otherwise you will receive an error</h3>
+                <!-- Form itself -->
+                <form id="formFibonacci" class="formItself">
+                    <label for="inputFibonacci" class="labelNumberUser">Enter Number Here:</label>
+                    <!-- Input for user, restricted to numbers -->
+                    <input type="number" id="inputFibonacci" class="inputNumberUser" required>
+                    <!-- button to submit and capture user input -->
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <!-- Container that will display the output based on users input above -->
+            <div id="outputFibonacci" class="outputContainer">
+                
+
+            </div>
+        </div>
+        <script src="app.js" async defer></script>
+    </body>
+</html>
