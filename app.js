@@ -8,11 +8,8 @@ document.getElementById('formFibonacci').addEventListener('submit', (formEvent) 
     fibonacciArrays = [];
     //--------------------VV------------{Retrieve the value from the user input}
     const userInput = document.getElementById("inputFibonacci").value;
-    console.log(userInput)
     //--------------------VV------------{Ensure that input is treated as a number}
     const inputNumber = userInput * 1
-    console.log(inputNumber)
-    console.log(checkForFibonacci(inputNumber))
     const outputElement = document.getElementById('outputFibonacci')
     if (checkForFibonacci(inputNumber)) {
         generateFibonacciNumbers(inputNumber);
@@ -32,7 +29,6 @@ const generateFibonacciNumbers = (inputNumber) => {
 
     //---------------VV---------{Handle case for if user input is 0}
     if (inputNumber === 0) {
-        console.log('0')
         previousNumber = 0;
         currentNumber = 1;
         fibonacciArrays.push(currentNumber)
@@ -62,7 +58,6 @@ const generateFibonacciNumbers = (inputNumber) => {
         currentNumber = nextFib;
     };
     //----------------Return the completed array
-    console.log(fibonacciArrays)
     return fibonacciArrays;
 };
 // -----------------------------VV------------{Function for checking if user supplied number falls into the fibonacci sequence}
