@@ -13,10 +13,14 @@ document.getElementById('formFibonacci').addEventListener('submit', (formEvent) 
     const inputNumber = userInput * 1
     console.log(inputNumber)
     console.log(checkForFibonacci(inputNumber))
+    const outputElement = document.getElementById('outputFibonacci')
     if (checkForFibonacci(inputNumber)) {
-        generateFibonacciNumbers(inputNumber)
+        generateFibonacciNumbers(inputNumber);
+        // --------VV-----{find the element that the results should be added to}
+        // --------VV-----{add the correct output into the div element with specified ID}
+        outputElement.textContent = fibonacciArrays.join(', ');
     } else {
-        console.log(`${inputNumber} is not in the fibonacci sequence`)
+        outputElement.textContent = 'Error!'
     };
 });
 // -----------------------------VV------------{Function for handling fibonacci generation}
@@ -26,8 +30,14 @@ const generateFibonacciNumbers = (inputNumber) => {
     let previousNumber;
     let currentNumber = inputNumber;
 
-    //---------------VV---------{Handle case for if user input is 0 or 1.  If 1, we will always assume that it's the first 1 in the sequence (even though it could possibly be the second 1)}
-    if (inputNumber === 0 || inputNumber === 1) {
+    //---------------VV---------{Handle case for if user input is 0}
+    if (inputNumber === 0) {
+        console.log('0')
+        previousNumber = 0;
+        currentNumber = 1;
+        fibonacciArrays.push(currentNumber)
+    //--------------VV----------{handle case for if user input is 1.  If 1, we will always assume that it's the first 1 in the sequence (even though it could possibly be the second 1)} 
+    } else if(inputNumber === 1){
         previousNumber = 0;
     // -------------VV---------{If the fibonacci number given is any other number in the sequence, we iterate through the fibonacci sequence until we reach }
     } else {
@@ -45,7 +55,7 @@ const generateFibonacciNumbers = (inputNumber) => {
         previousNumber = startNum;
     };
     // -----------------VV--------With both of these numbers, we can now find the next 11 numbers in the sequence
-    for (let i = 1; i < 12; i++) {
+    for (let i = fibonacciArrays.length; i < 12; i++) {
         const nextFib = previousNumber + currentNumber;
         fibonacciArrays.push(nextFib);
         previousNumber = currentNumber;
