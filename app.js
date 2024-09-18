@@ -1,14 +1,3 @@
-/*NOTE-PLEASE READ
-Because of javascript limits and limits of the Math functions, the highest number a user could enter without 
-getting false positives is about 1000000000000000 (which means currently the highest fibonacci number a user can enter 
-is the 73rd in the sequence).  There are a few ways around this that I'm researching.  One method is to use BigInt for larger 
-numbers, and most likely dropping the 5 * x ** 2 + 4 and instead just generating Fibonacci numbers and comparing the 
-user input to them for the check (Possibly adding a database as well so the calculations for the larger numbers don't 
-need to be redone multiple times).  There's also the option of using a different language like PHP that seems to work better 
-with larger numbers.  More time and research is needed for the correct implementation of either of these.
-As a temporary solution to ensure there are not false positives, user input will be limited to number <= 1000000000000000. 
-*/
-
 // -----------------------------VV------------{Empty array that will hold the 12 fibonacci Numbers}
 let fibonacciArrays = []
 // -----------------------------VV------------{capturing the input from form by adding event listener for the submit from button}
@@ -17,22 +6,41 @@ document.getElementById('formFibonacci').addEventListener('submit', (formEvent) 
     formEvent.preventDefault();
     //--------------------VV------------{Reset the fibonacciArray each time a user submits an input}
     fibonacciArrays = [];
+    // --------VV-----{find the element that the results should be added to}
+    const outputElement = document.getElementById('outputFibonacci')
     //--------------------VV------------{Retrieve the value from the user input}
     const userInput = document.getElementById("inputFibonacci").value;
     //--------------------VV------------{Ensure that input is treated as a number}
     const inputNumber = userInput * 1
-    const outputElement = document.getElementById('outputFibonacci')
-    if (checkForFibonacci(inputNumber)) {
-        generateFibonacciNumbers(inputNumber);
-        // --------VV-----{find the element that the results should be added to}
-        // --------VV-----{add the correct output into the div element with specified ID}
-        outputElement.textContent = fibonacciArrays.join(', ');
+    //--------------------VV------------{if number is > 1000000000000000, it will be converted to a bigint and tested differently}
+    console.log(`This is userInput: ${userInput}`)
+    console.log(`This  inputNumber: ${inputNumber}`)
+    if (inputNumber > 1000000000000000) {
+        try {
+        /*I'm using input number in the if statement incase of a string being presented.  The reason we can't use that same input 
+        for the BigInt conversion is due to javascript limits with bigger numbers.  Even multiplying by 1 can give a different number.
+        For example: if user inputs "14472334024676221", the inputNumber becomes "14472334024676220" */ 
+            const bigUserInput = BigInt(userInput)
+            console.log('bigint created')
+            genCheckFibonacci(bigUserInput, outputElement)
+        // -----------------VV-------------For now, this is used for decimals being entered or any other errors.
+        } catch (error) {
+            console.log("bigint could not be created")
+            outputElement.textContent = 'Error!'
+            console.log(error)
+        }
     } else {
-        outputElement.textContent = 'Error!'
-    };
+        if (checkForFibonacci(inputNumber)) {
+            generateSmallFibonacci(inputNumber);
+            // --------VV-----{add the correct output into the div element with specified ID}
+            outputElement.textContent = fibonacciArrays.join(', ');
+        } else {
+            outputElement.textContent = 'Error!'
+        };
+    }
 });
-// -----------------------------VV------------{Function for handling fibonacci generation}
-const generateFibonacciNumbers = (inputNumber) => {
+// -----------------------------VV------------{Function for handling small fibonacci generation}
+const generateSmallFibonacci = (inputNumber) => {
     fibonacciArrays.push(inputNumber)
     //-----------------VV--------{Variables for previous number and current number of the sequence}
     let previousNumber;
@@ -51,7 +59,7 @@ const generateFibonacciNumbers = (inputNumber) => {
         // ------------ first two numbers of the fibonacci sequence
         let startNum = 0;
         let nextNum = 1;
-        //------------- while loop to continue to iterate through until the nextnum is greater than the users supplied number
+        //------------- while loop to continue to iterate through until the nextNum is greater than the users supplied number
         while(nextNum < inputNumber) {
             const tempNum = nextNum;
             nextNum = startNum + nextNum;
@@ -70,6 +78,36 @@ const generateFibonacciNumbers = (inputNumber) => {
     };
     //----------------Return the completed array
     return fibonacciArrays;
+};
+// ------------------VV----------------{Function for generating  and checking big fibonacci numbers}
+const genCheckFibonacci = (bigUserInput, outputElement) => {
+    // starting with the 72 and 73 fibonacci numbers, as that's the limit of the other array
+    let startNum = BigInt(498454011879264);
+    let nextNum = BigInt(806515533049393);
+    let numberLoops = 0;
+    while(nextNum < bigUserInput) {
+        const tempNum = nextNum;
+        nextNum = startNum + nextNum;
+        startNum = tempNum;
+        numberLoops += 1;
+    };
+    console.log(`Number of loops: ${numberLoops}`)
+    console.log(startNum, nextNum)
+    // Once the while loop generates a fib that is !< the user number, we check if that number is the users input.  If it is, then user number is a fib 
+    if (bigUserInput === nextNum) {
+        fibonacciArrays.push(bigUserInput);
+        for (let i = fibonacciArrays.length; i < 12; i++) {
+            const nextFib = startNum + nextNum;
+            fibonacciArrays.push(nextFib)
+            startNum = nextNum;
+            nextNum = nextFib
+            console.log(i)
+        };
+        outputElement.textContent = fibonacciArrays.join(', ')
+    // Otherwise, it's not a fib
+    } else {
+        outputElement.textContent = 'Error!'
+    };
 };
 // -----------------------------VV------------{Function for checking if user supplied number falls into the fibonacci sequence}
 const checkForFibonacci = (inputNumber) => {
