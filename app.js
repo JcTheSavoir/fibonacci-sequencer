@@ -1,5 +1,5 @@
 // -----------------------------VV------------{Empty array that will hold the 12 fibonacci Numbers}
-let fibonacciArrays = []
+let fibonacciArrays = [];
 // -----------------------------VV------------{capturing the input from form by adding event listener for the submit from button}
 document.getElementById('formFibonacci').addEventListener('submit', (formEvent) => {
     //--------------------VV------------{prevent form submission from refreshing page}
@@ -7,41 +7,37 @@ document.getElementById('formFibonacci').addEventListener('submit', (formEvent) 
     //--------------------VV------------{Reset the fibonacciArray each time a user submits an input}
     fibonacciArrays = [];
     // --------VV-----{find the element that the results should be added to}
-    const outputElement = document.getElementById('outputFibonacci')
+    const outputElement = document.getElementById('outputFibonacci');
     //--------------------VV------------{Retrieve the value from the user input}
     const userInput = document.getElementById("inputFibonacci").value;
     //--------------------VV------------{Ensure that input is treated as a number}
-    const inputNumber = userInput * 1
+    const inputNumber = userInput * 1;
     //--------------------VV------------{if number is > 1000000000000000, it will be converted to a bigint and tested differently}
-    console.log(`This is userInput: ${userInput}`)
-    console.log(`This  inputNumber: ${inputNumber}`)
     if (inputNumber > 1000000000000000) {
         try {
-        /*I'm using input number in the if statement incase of a string being presented.  The reason we can't use that same input 
+        /*I'm using input number in the if statement in case of a string being presented.  The reason we can't use that same input 
         for the BigInt conversion is due to javascript limits with bigger numbers.  Even multiplying by 1 can give a different number.
         For example: if user inputs "14472334024676221", the inputNumber becomes "14472334024676220" */ 
-            const bigUserInput = BigInt(userInput)
-            console.log('bigint created')
-            genCheckFibonacci(bigUserInput, outputElement)
+            const bigUserInput = BigInt(userInput);
+            genCheckFibonacci(bigUserInput, outputElement);
         // -----------------VV-------------For now, this is used for decimals being entered or any other errors.
         } catch (error) {
-            console.log("bigint could not be created")
-            outputElement.textContent = 'Error!'
-            console.log(error)
-        }
+            outputElement.textContent = 'Error!';
+            console.log(error);
+        };
     } else {
         if (checkForFibonacci(inputNumber)) {
             generateSmallFibonacci(inputNumber);
             // --------VV-----{add the correct output into the div element with specified ID}
             outputElement.textContent = fibonacciArrays.join(', ');
         } else {
-            outputElement.textContent = 'Error!'
+            outputElement.textContent = 'Error!';
         };
-    }
+    };
 });
 // -----------------------------VV------------{Function for handling small fibonacci generation}
 const generateSmallFibonacci = (inputNumber) => {
-    fibonacciArrays.push(inputNumber)
+    fibonacciArrays.push(inputNumber);
     //-----------------VV--------{Variables for previous number and current number of the sequence}
     let previousNumber;
     let currentNumber = inputNumber;
@@ -50,7 +46,7 @@ const generateSmallFibonacci = (inputNumber) => {
     if (inputNumber === 0) {
         previousNumber = 0;
         currentNumber = 1;
-        fibonacciArrays.push(currentNumber)
+        fibonacciArrays.push(currentNumber);
     //--------------VV----------{handle case for if user input is 1.  If 1, we will always assume that it's the first 1 in the sequence (even though it could possibly be the second 1)} 
     } else if(inputNumber === 1){
         previousNumber = 0;
@@ -64,7 +60,7 @@ const generateSmallFibonacci = (inputNumber) => {
             const tempNum = nextNum;
             nextNum = startNum + nextNum;
             startNum = tempNum;
-        }
+        };
         // ----VV-------- once this iteration is done, the 'nextNum' will be our user input number, while our startNum will be the number right before it.
         // set this equal to our previousNumber, and now we have the number that comes before the user supplied number in the fibonacci sequence
         previousNumber = startNum;
@@ -81,7 +77,7 @@ const generateSmallFibonacci = (inputNumber) => {
 };
 // ------------------VV----------------{Function for generating  and checking big fibonacci numbers}
 const genCheckFibonacci = (bigUserInput, outputElement) => {
-    // starting with the 72 and 73 fibonacci numbers, as that's the limit of the other array
+    // starting with the 72 and 73 fibonacci numbers, as that's the limit of the small number function
     let startNum = BigInt(498454011879264);
     let nextNum = BigInt(806515533049393);
     let numberLoops = 0;
@@ -91,22 +87,23 @@ const genCheckFibonacci = (bigUserInput, outputElement) => {
         startNum = tempNum;
         numberLoops += 1;
     };
-    console.log(`Number of loops: ${numberLoops}`)
-    console.log(startNum, nextNum)
+    // ----------------VV---------Good to know how many loops were needed to find the fib number
+    console.log(`Number of loops: ${numberLoops}`);
+    // ----------------VV---------This could be used to tell the user the two closest fibonacci numbers to there input (if there's was not a fib) 
+    console.log(startNum, nextNum);
     // Once the while loop generates a fib that is !< the user number, we check if that number is the users input.  If it is, then user number is a fib 
     if (bigUserInput === nextNum) {
         fibonacciArrays.push(bigUserInput);
         for (let i = fibonacciArrays.length; i < 12; i++) {
             const nextFib = startNum + nextNum;
-            fibonacciArrays.push(nextFib)
+            fibonacciArrays.push(nextFib);
             startNum = nextNum;
-            nextNum = nextFib
-            console.log(i)
+            nextNum = nextFib;
         };
-        outputElement.textContent = fibonacciArrays.join(', ')
+        outputElement.textContent = fibonacciArrays.join(', ');
     // Otherwise, it's not a fib
     } else {
-        outputElement.textContent = 'Error!'
+        outputElement.textContent = 'Error!';
     };
 };
 // -----------------------------VV------------{Function for checking if user supplied number falls into the fibonacci sequence}
@@ -134,7 +131,7 @@ const compareConditions = (x) => {
 const checkForPerfectSquare = (num) => {
     if (num < 0) {
         return false;
-    }
+    };
     // ------------------VV-----------{Gets the square root of the number}
     const square = Math.sqrt(num);
     // ------------------VV-----------{Checks if number is an integer, returns true if it is, returns false if it's not}
