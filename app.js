@@ -1,3 +1,14 @@
+/*NOTE-PLEASE READ
+Because of javascript limits and limits of the Math functions, the highest number a user could enter without 
+getting false positives is about 1000000000000000 (which means currently the highest fibonacci number a user can enter 
+is the 73rd in the sequence).  There are a few ways around this that I'm researching.  One method is to use BigInt for larger 
+numbers, and most likely dropping the 5 * x ** 2 + 4 and instead just generating Fibonacci numbers and comparing the 
+user input to them for the check (Possibly adding a database as well so the calculations for the larger numbers don't 
+need to be redone multiple times).  There's also the option of using a different language like PHP that seems to work better 
+with larger numbers.  More time and research is needed for the correct implementation of either of these.
+As a temporary solution to ensure there are not false positives, user input will be limited to number <= 1000000000000000. 
+*/
+
 // -----------------------------VV------------{Empty array that will hold the 12 fibonacci Numbers}
 let fibonacciArrays = []
 // -----------------------------VV------------{capturing the input from form by adding event listener for the submit from button}
