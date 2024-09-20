@@ -1,11 +1,11 @@
 // -----------------------------VV------------{Empty array that will hold the 12 fibonacci Numbers}
-let fibonacciArrays = [];
+let fibonacciArray = [];
 // -----------------------------VV------------{capturing the input from form by adding event listener for the submit from button}
 document.getElementById('formFibonacci').addEventListener('submit', (formEvent) => {
     //--------------------VV------------{prevent form submission from refreshing page}
     formEvent.preventDefault();
     //--------------------VV------------{Reset the fibonacciArray each time a user submits an input}
-    fibonacciArrays = [];
+    fibonacciArray = [];
     // --------VV-----{find the element that the results should be added to}
     const outputElement = document.getElementById('outputFibonacci');
     //--------------------VV------------{Retrieve the value from the user input}
@@ -29,7 +29,7 @@ document.getElementById('formFibonacci').addEventListener('submit', (formEvent) 
         if (checkForFibonacci(inputNumber)) {
             generateSmallFibonacci(inputNumber);
             // --------VV-----{add the correct output into the div element with specified ID}
-            outputElement.textContent = fibonacciArrays.join(', ');
+            outputElement.textContent = fibonacciArray.join(', ');
         } else {
             outputElement.textContent = 'Error!';
         };
@@ -37,7 +37,7 @@ document.getElementById('formFibonacci').addEventListener('submit', (formEvent) 
 });
 // -----------------------------VV------------{Function for handling small fibonacci generation}
 const generateSmallFibonacci = (inputNumber) => {
-    fibonacciArrays.push(inputNumber);
+    fibonacciArray.push(inputNumber);
     //-----------------VV--------{Variables for previous number and current number of the sequence}
     let previousNumber;
     let currentNumber = inputNumber;
@@ -46,7 +46,7 @@ const generateSmallFibonacci = (inputNumber) => {
     if (inputNumber === 0) {
         previousNumber = 0;
         currentNumber = 1;
-        fibonacciArrays.push(currentNumber);
+        fibonacciArray.push(currentNumber);
     //--------------VV----------{handle case for if user input is 1.  If 1, we will always assume that it's the first 1 in the sequence (even though it could possibly be the second 1)} 
     } else if(inputNumber === 1){
         previousNumber = 0;
@@ -66,14 +66,14 @@ const generateSmallFibonacci = (inputNumber) => {
         previousNumber = startNum;
     };
     // -----------------VV--------With both of these numbers, we can now find the next 11 numbers in the sequence
-    for (let i = fibonacciArrays.length; i < 12; i++) {
+    for (let i = fibonacciArray.length; i < 12; i++) {
         const nextFib = previousNumber + currentNumber;
-        fibonacciArrays.push(nextFib);
+        fibonacciArray.push(nextFib);
         previousNumber = currentNumber;
         currentNumber = nextFib;
     };
     //----------------Return the completed array
-    return fibonacciArrays;
+    return fibonacciArray;
 };
 // ------------------VV----------------{Function for generating  and checking big fibonacci numbers}
 const genCheckFibonacci = (bigUserInput, outputElement) => {
@@ -93,14 +93,14 @@ const genCheckFibonacci = (bigUserInput, outputElement) => {
     console.log(startNum, nextNum);
     // Once the while loop generates a fib that is !< the user number, we check if that number is the users input.  If it is, then user number is a fib 
     if (bigUserInput === nextNum) {
-        fibonacciArrays.push(bigUserInput);
-        for (let i = fibonacciArrays.length; i < 12; i++) {
+        fibonacciArray.push(bigUserInput);
+        for (let i = fibonacciArray.length; i < 12; i++) {
             const nextFib = startNum + nextNum;
-            fibonacciArrays.push(nextFib);
+            fibonacciArray.push(nextFib);
             startNum = nextNum;
             nextNum = nextFib;
         };
-        outputElement.textContent = fibonacciArrays.join(', ');
+        outputElement.textContent = fibonacciArray.join(', ');
     // Otherwise, it's not a fib
     } else {
         outputElement.textContent = 'Error!';
@@ -120,10 +120,10 @@ const checkForFibonacci = (inputNumber) => {
     };
 };
 // -----------------------------VV------------{Function to compare user supplied number against fibonacci test conditions}
-const compareConditions = (x) => {
+const compareConditions = (num) => {
     //-------------------VV-----------{Put number through two equations}
-    let testCondition1 = 5 * x ** 2 + 4;
-    let testCondition2 = 5 * x ** 2 - 4;
+    let testCondition1 = 5 * num ** 2 + 4;
+    let testCondition2 = 5 * num ** 2 - 4;
     //-------------------VV----------{Check if at least one of the results is a perfect square}
     return checkForPerfectSquare(testCondition1) || checkForPerfectSquare(testCondition2);
 };
